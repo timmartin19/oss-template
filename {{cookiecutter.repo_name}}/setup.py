@@ -17,6 +17,7 @@ requirements = [
 ]
 
 test_requirements = [
+    'pylint'
     # TODO: put package test requirements here
 ]
 
