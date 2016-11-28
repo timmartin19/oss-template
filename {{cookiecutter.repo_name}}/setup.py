@@ -13,10 +13,17 @@ requirements = [
     {%- if cookiecutter.command_line_interface|lower == 'click' %}
     'Click>=6.0',
     {%- endif %}
+    'Flask-SQLAlchemy',
+    'flask',
+    'pystatuschecker',
+    'sqlalchemy',
+    'ujson',
+    'ultra-config'
     # TODO: put package requirements here
 ]
 
 test_requirements = [
+    'webtest'
     # TODO: put package test requirements here
 ]
 
