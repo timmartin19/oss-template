@@ -29,13 +29,13 @@ test_requirements = [
 } %}
 
 setup(
-    name='{{ cookiecutter.project_slug }}',
+    name='{{ cookiecutter.repo_name }}',
     version='{{ cookiecutter.version }}',
     description="{{ cookiecutter.project_short_description }}",
     long_description=readme + '\n\n' + history,
     author="{{ cookiecutter.full_name.replace('\"', '\\\"') }}",
     author_email='{{ cookiecutter.email }}',
-    url='https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}',
+    url='https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}',
     packages=[
         '{{ cookiecutter.project_slug }}',
     ],
@@ -70,6 +70,6 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    test_suite='tests',
+    test_suite='{{ cookiecutter.project_slug}}_tests',
     tests_require=test_requirements
 )

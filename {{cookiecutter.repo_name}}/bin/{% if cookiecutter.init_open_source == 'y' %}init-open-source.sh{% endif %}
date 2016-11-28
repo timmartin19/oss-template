@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+open-source-init full {{ cookiecutter.repo_name }} --pypi pypi --pypi-username {{ cookiecutter.pypi_username }}

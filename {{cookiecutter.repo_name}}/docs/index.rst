@@ -11,12 +11,13 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   readme
    installation
    usage
    contributing
    {% if cookiecutter.create_author_file == 'y' -%}authors{% endif -%}
    history
+
+.. include:: ../README.rst
 
 Indices and tables
 ==================
