@@ -24,6 +24,7 @@ requirements = [
 
 test_requirements = [
     'webtest'
+    'pylint'
     # TODO: put package test requirements here
 ]
 

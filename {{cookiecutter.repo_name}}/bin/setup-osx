@@ -1,0 +1,19 @@
+#!/bin/bash -e
+
+brew update
+brew install pyenv
+
+eval "$(pyenv init -)"
+pyenv install 3.5.1
+pyenv local 3.5.1
+
+cat $HOME/.bash_profile > $HOME/.bash_profile.backup
+echo 'eval \"\$(pyenv init -)\"' >> $HOME/.bash_profile
+
+# virtualenv and wrapper
+pip install virtualenvwrapper
+export WORKON_HOME=$HOME/.envs
+mkdir -p $WORKON_HOME
+echo 'export WORKON_HOME=\$HOME/.envs' >> $HOME/.bash_profile
+
+
