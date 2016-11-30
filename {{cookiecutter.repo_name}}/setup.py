@@ -13,7 +13,6 @@ requirements = [
     {%- if cookiecutter.command_line_interface|lower == 'click' %}
     'Click>=6.0',
     {%- endif %}
-    'Flask-Migrate',
     'Flask-SQLAlchemy',
     'flask',
     'pystatuschecker',

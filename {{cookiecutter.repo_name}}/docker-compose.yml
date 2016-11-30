@@ -6,7 +6,7 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./:/home/app
+      - ./:/home/app/{{ cookiecutter.repo_name }}
     links:
       - postgres
     environment:

@@ -42,7 +42,7 @@ To build and open the documentation simply run:
 Installation
 ------------
 
-If you need to install pyenv/virtualenvwrapper you can run the `bin/setup-osx` command
+If you need to install pyenv/virtualenvwrapper you can run the ``bin/setup-osx`` command
 Please note that this will modify your bash profile
 
 Assuming you have virtualenv wrapper installed
@@ -53,6 +53,28 @@ Assuming you have virtualenv wrapper installed
     workon {{ cookiecutter.repo_name }}
     pip install -r requirements_dev.txt
     pip install -e .
+
+Docker
+""""""
+
+If you want to use docker for this project
+
+1. Download and install `Docker for Mac <https://docs.docker.com/docker-for-mac/>`_
+2. In the root of this repo: ``docker-compose build``
+3. ``docker-compose up``
+4. Verify the application is running with: ``curl http://localhost:5000/status``
+
+PyCharm
+"""""""
+
+To integrate PyCharm with your virtual environment
+
+1. install according to the standard installation instructions
+2. In your project settings (shortcut: ``cmd+,``) navigate to ``Project -> Project Interpreter``
+3. Select the gear icon in the upper right corner
+4. Select ``Add Local``
+5. Select ``$HOME/.envs/{{ cookiecutter.repo_name }}/bin/python3.5`` and click ``OK``
+6. Click ``Apply`` and then ``OK``
 
 Features
 --------

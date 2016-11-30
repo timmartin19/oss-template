@@ -12,6 +12,7 @@ LOGGING_CONFIG = {
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
+            'class': 'colorlog.ColoredFormatter',
             'format': '%(log_color)s%(asctime)s [%(levelname)s] %(name)s: %(message)s'
         }
     },

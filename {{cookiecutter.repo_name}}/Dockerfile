@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get install -y inotify-tools
 
 # Setup the user
-ENV APP_ROOT /home/app
+ENV APP_ROOT /home/app/{{ cookiecutter.repo_name }}
 WORKDIR $APP_ROOT
 ENV APP_USER app
 ENV APP_GROUP app

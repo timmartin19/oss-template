@@ -32,6 +32,16 @@ def init_app(config_override=None):
     app = _load_configuration(app, overrides=config_override)
     _init_logging()
     app = _register_blueprints(app)
+    app = _init_db(app)
+    return app
+
+
+def _init_db(app):
+    """
+    Initializes the database
+
+    :rtype: Flask
+    """
     DB.init_app(app)
     return app
 
