@@ -25,7 +25,6 @@ if __name__ == '__main__':
 
     init_git_repo()
 
-    # os.system('bin/init-virtualenv.sh')
     #
     # if '{{ cookiecutter.init_open_source }}' == 'y':
     #     os.system('bin/init-open-source.sh')
