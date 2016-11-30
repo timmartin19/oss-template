@@ -6,8 +6,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 REPO_DIR="${DIR}/.."
 DOCS_DIR="${REPO_DIR}/docs"
 
-pip install sphinx
-sphinx-apidoc -o "${DOCS_DIR}" "${REPO_DIR}/smart_archiver" -f
+sphinx-apidoc -o "${DOCS_DIR}" "${REPO_DIR}/{{ cookiecutter.project_slug }}" -f
 rm "${DOCS_DIR}/modules.rst"
 sphinx-build "${DOCS_DIR}" "${DOCS_DIR}/build" -b html
 
