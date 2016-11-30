@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 import os
+from subprocess import call
 
 PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
 
 
 def remove_file(filepath):
     os.remove(os.path.join(PROJECT_DIRECTORY, filepath))
+
+
+def init_git_repo():
+    call(['git', 'init'])
+    call(['git', 'add', '.'])
+    call(['git', 'commit', '-m', 'created project from github.com/timmartin19/cookiecutter-pypackage'])
 
 
 if __name__ == '__main__':
@@ -15,6 +22,8 @@ if __name__ == '__main__':
 
     if 'Not open source' == '{{ cookiecutter.open_source_license }}':
         remove_file('LICENSE')
+
+    init_git_repo()
 
     # os.system('bin/init-virtualenv.sh')
     #
