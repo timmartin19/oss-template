@@ -27,6 +27,33 @@
 * Documentation: https://{{ cookiecutter.project_slug | replace("_", "-") }}.readthedocs.io.
 {% endif %}
 
+Documentation
+-------------
+
+You will need to install the package dependencies first,
+see the Installation section for details.
+
+To build and open the documentation simply run:
+
+.. code-block:: bash
+
+    bin/build-docs
+
+Installation
+------------
+
+If you need to install pyenv/virtualenvwrapper you can run the `bin/setup-osx` command
+Please note that this will modify your bash profile
+
+Assuming you have virtualenv wrapper installed
+
+.. code-block:: bash
+
+    mkvirtualenv {{ cookiecutter.repo_name }}
+    workon {{ cookiecutter.repo_name }}
+    pip install -r requirements_dev.txt
+    pip install -e .
+
 Features
 --------
 
