@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -evx
+#!/bin/bash -e
 
 mkvirtualenv "{{ cookiecutter.repo_name }}"
 workon "{{ cookiecutter.repo_name }}"

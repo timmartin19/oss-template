@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+coverage run --source {{ cookiecutter.project_slug }} -m unittest -v
+coverage report -m
+coverage html

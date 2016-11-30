@@ -65,7 +65,7 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=intern-builtin,basestring-builtin,reduce-builtin,round-builtin,long-suffix,setslice-method,old-octal-literal,coerce-builtin,using-cmp-argument,apply-builtin,input-builtin,old-division,zip-builtin-not-iterating,delslice-method,unicode-builtin,oct-method,cmp-method,dict-iter-method,nonzero-method,coerce-method,filter-builtin-not-iterating,reload-builtin,print-statement,useless-suppression,old-ne-operator,suppressed-message,unpacking-in-except,buffer-builtin,standarderror-builtin,long-builtin,range-builtin-not-iterating,unichr-builtin,map-builtin-not-iterating,cmp-builtin,import-star-module-level,no-absolute-import,execfile-builtin,old-raise-syntax,parameter-unpacking,hex-method,raw_input-builtin,file-builtin,getslice-method,raising-string,next-method-called,indexing-exception,backtick,xrange-builtin,dict-view-method,metaclass-assignment
+disable=no-member,too-few-public-methods,intern-builtin,basestring-builtin,reduce-builtin,round-builtin,long-suffix,setslice-method,old-octal-literal,coerce-builtin,using-cmp-argument,apply-builtin,input-builtin,old-division,zip-builtin-not-iterating,delslice-method,unicode-builtin,oct-method,cmp-method,dict-iter-method,nonzero-method,coerce-method,filter-builtin-not-iterating,reload-builtin,print-statement,useless-suppression,old-ne-operator,suppressed-message,unpacking-in-except,buffer-builtin,standarderror-builtin,long-builtin,range-builtin-not-iterating,unichr-builtin,map-builtin-not-iterating,cmp-builtin,import-star-module-level,no-absolute-import,execfile-builtin,old-raise-syntax,parameter-unpacking,hex-method,raw_input-builtin,file-builtin,getslice-method,raising-string,next-method-called,indexing-exception,backtick,xrange-builtin,dict-view-method,metaclass-assignment
 
 
 [REPORTS]
@@ -173,7 +173,7 @@ function-name-hint=[a-z_][a-z0-9_]{2,30}$
 const-rgx=(([A-Z_][A-Z0-9_]*)|(__.*__))$
 
 # Naming hint for constant names
-const-name-hint=(([A-Z_][A-Z0-9_]*)|(__.*__))$
+const-name-hint=(([A-Z_][A-Z0-9_]*)|(__.*__)|app)$
 
 # Regular expression which should only match function or class names that do
 # not require a docstring.

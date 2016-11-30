@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+  app:
+    build: .
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/home/app
+    links:
+      - postgres
+    environment:
+      {{ cookiecutter.project_slug|upper }}_DEBUG: 'true'
+      {{ cookiecutter.project_slug|upper }}_SQLALCHEMY_DATABASE_URI: 'postgresql://{{ cookiecutter.project_slug }}@postgres:5432/{{ cookiecutter.project_slug }}'
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: {{ cookiecutter.project_slug }}
+      POSTGRES_DB: {{ cookiecutter.project_slug }}

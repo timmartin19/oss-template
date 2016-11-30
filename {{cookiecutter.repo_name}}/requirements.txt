@@ -1,0 +1,11 @@
+Click>=6.0
+Flask-Migrate
+Flask-SQLAlchemy
+flask
+pystatuschecker
+sqlalchemy
+ujson
+ultra-config
+webtest
+pylint
+colorlog

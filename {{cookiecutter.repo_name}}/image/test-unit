@@ -1,0 +1,3 @@
+#!/bin/bash -e
+
+python -m unittest {{ cookiecutter.project_slug }}_tests.unit_tests

@@ -1,3 +1,5 @@
 #!/bin/bash -e
 
+cd $APP_ROOT
+
 pylint --rcfile .pylintrc -j 4 {{ cookiecutter.project_slug }}

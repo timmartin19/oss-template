@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd $APP_ROOT
+
+eval $@
+
+echo "Running '$@' on all changes to ${APP_ROOT}"
+while inotifywait -re modify ${APP_ROOT}; do
+    echo "Detected changes to ${APP_ROOT}. Running '$@'"
+    echo "======================================================="
+    eval $@
+done

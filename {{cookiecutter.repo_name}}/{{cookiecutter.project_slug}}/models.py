@@ -1,15 +1,27 @@
+"""
+Contains the SQLAlchemy database modules for
+the application. See the `SQLAlchemy docs <http://sqlalchemy.org>`_
+for more detail
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import logging
+
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.inspection import inspect
 
+LOG = logging.getLogger(__name__)
 DB = SQLAlchemy()
 
 
 class _Base(DB.Model):
+    """
+    A base model that includes common methods for
+    all models (primarily pretty printing)
+    """
     __abstract__ = True
 
     def __repr__(self):

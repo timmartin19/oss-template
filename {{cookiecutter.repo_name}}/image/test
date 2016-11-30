@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+cd $APP_ROOT
+
+python -m unittest -v
+lint

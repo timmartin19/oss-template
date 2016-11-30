@@ -1,3 +1,7 @@
+"""
+Default settings for the application.  All top level module
+attributes will be loaded as configuration
+"""
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -8,7 +12,7 @@ LOGGING_CONFIG = {
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
-            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+            'format': '%(log_color)s%(asctime)s [%(levelname)s] %(name)s: %(message)s'
         }
     },
     'handlers': {
@@ -43,3 +47,5 @@ LOGGING_CONFIG = {
 }
 
 DEBUG = False
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False
