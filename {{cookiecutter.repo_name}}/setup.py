@@ -9,24 +9,8 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [
-    {%- if cookiecutter.command_line_interface|lower == 'click' %}
-    'Click>=6.0',
-    {%- endif %}
-    'Flask-SQLAlchemy',
-    'flask',
-    'pystatuschecker',
-    'sqlalchemy',
-    'ujson',
-    'ultra-config'
-    # TODO: put package requirements here
-]
-
-test_requirements = [
-    'webtest'
-    'pylint'
-    # TODO: put package test requirements here
-]
+with open('requirements.txt', 'r') as requirements_file:
+    requirements = requirements_file.read().splitlines()
 
 {%- set license_classifiers = {
     'MIT license': 'License :: OSI Approved :: MIT License',
@@ -78,6 +62,5 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    test_suite='{{ cookiecutter.project_slug}}_tests',
-    tests_require=test_requirements
+    test_suite='{{ cookiecutter.project_slug}}_tests'
 )

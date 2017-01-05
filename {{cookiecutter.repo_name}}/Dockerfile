@@ -1,16 +1,16 @@
-FROM python:3.5.2
+FROM timmartin/python-alpine-build
 
-RUN apt-get update && \
-    apt-get install -y inotify-tools
+RUN apk add libxslt-dev libffi-dev postgresql-dev
 
 # Setup the user
-ENV APP_ROOT /home/app/{{ cookiecutter.repo_name }}
+ENV USER_ROOT="/home/app" \
+    APP_ROOT="/home/app/{{ cookiecutter.repo_name }}" \
+    APP_USER="app" \
+    APP_GROUP="app"
 WORKDIR $APP_ROOT
-ENV APP_USER app
-ENV APP_GROUP app
-RUN groupadd -r $APP_GROUP && \
-    useradd -r -g $APP_USER $APP_GROUP && \
-    chown $APP_USER:$APP_GROUP $APP_ROOT && \
+RUN addgroup $APP_GROUP && \
+    adduser -h $USER_ROOT -D -G $APP_USER $APP_GROUP && \
+    chown -R $APP_USER:$APP_GROUP $USER_ROOT && \
     chown -R $APP_USER:$APP_GROUP /usr/local
 USER $APP_USER
 
@@ -24,19 +24,17 @@ RUN pip install -r requirements_dev.txt
 ADD requirements.txt $APP_ROOT/requirements.txt
 RUN pip install -r requirements.txt
 
-ENV PATH $APP_ROOT/image:$PATH
+ENV PATH="$APP_ROOT/image:$PATH" \
+    FLASK_APP="$APP_ROOT/{{ cookiecutter.project_slug }}/cli.py"
+
 ADD image $APP_ROOT/image
+CMD ["run-app"]
 
 ADD setup.py CONTRIBUTING.rst HISTORY.rst README.rst setup.cfg MANIFEST.in $APP_ROOT/
 ADD docs $APP_ROOT/docs
-
-# Required for flask-cli
-ENV FLASK_APP $APP_ROOT/{{ cookiecutter.project_slug }}/cli.py
 
 # Add the project files
 ADD {{ cookiecutter.project_slug }} $APP_ROOT/{{ cookiecutter.project_slug }}
 ADD {{ cookiecutter.project_slug }}_tests $APP_ROOT/{{ cookiecutter.project_slug }}_tests
 
 RUN python setup.py -q install
-
-CMD ["run-app"]

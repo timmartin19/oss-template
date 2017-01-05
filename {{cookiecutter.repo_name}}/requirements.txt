@@ -7,3 +7,4 @@ ultra-config
 webtest
 pylint
 colorlog
+psycopg2

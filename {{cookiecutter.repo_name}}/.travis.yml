@@ -1,18 +1,38 @@
 # Config file for automatic testing at travis-ci.org
 # This file will be regenerated if you run travis_pypi_setup.py
-
+sudo: required
 language: python
-python:
-  - 3.5
-  - 3.4
-  - 2.7
-  - pypy
+python: 3.5
+services:
+  - docker
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -e .
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=1.8.1
+    - DOCKER_VERSION=1.12.3-0~trusty
 
-# command to run tests, e.g. python setup.py test
-script: python -m unittest discover
+# Install correct versions of docker and docker-compose
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y --force-yes docker-engine=${DOCKER_VERSION}
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+
+# Build the image and start postgres
+before_script:
+  - docker-compose -f docker-compose.yml build
+  - docker-compose -f docker-compose.yml up -d postgres
+
+# Run all tests
+script:
+  - docker-compose -f docker-compose.yml run app test-all
+
+# clean up the running docker images
+after_script:
+  - docker-compose -f docker-compose.yml kill
 
 {% if cookiecutter.use_pypi_deployment_with_travis == 'y' -%}
 # After you create the Github repo and add it to Travis, run the

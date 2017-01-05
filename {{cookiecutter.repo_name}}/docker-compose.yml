@@ -15,6 +15,7 @@ services:
 
   postgres:
     image: postgres
+    container_name: {{ cookiecutter.project_slug|lower }}-postgres
     ports:
       - 5432:5432
     environment:

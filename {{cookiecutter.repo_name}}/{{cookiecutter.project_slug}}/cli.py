@@ -18,7 +18,6 @@ from {{ cookiecutter.project_slug }}.wsgi import app
 
 LOG = logging.getLogger(__name__)
 
-x= 1
 
 @app.cli.command()
 def version():

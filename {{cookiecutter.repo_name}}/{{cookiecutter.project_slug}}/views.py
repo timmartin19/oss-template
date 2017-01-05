@@ -9,10 +9,12 @@ from __future__ import unicode_literals
 import logging
 
 from flask import Blueprint, Response
+from sqlalchemy.exc import OperationalError
 from status_checker import StatusChecker
 import ujson
 
 import {{ cookiecutter.project_slug }}
+from {{ cookiecutter.project_slug }}.models import DB
 
 {% set blueprint = '{0}_BLUEPRINT'.format(cookiecutter.project_slug.upper()) %}
 LOG = logging.getLogger(__name__)
@@ -27,8 +29,12 @@ def _check_database():
         a key 'available' corresponding to a boolean
     :rtype: dict{str:object}
     """
-    # TODO: Test the connection and ensure the database is running and reachable
-    return {'available': True}
+    try:
+        DB.engine.execute("SELECT 1")
+    except OperationalError as exc:
+        return {'available': False, 'message': str(exc)}
+    else:
+        return {'available': True, 'message': 'ready'}
 
 _STATUS_CHECKER = StatusChecker(database=_check_database)
 

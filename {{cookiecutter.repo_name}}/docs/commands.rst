@@ -30,7 +30,7 @@ e.g. `test-unit` instead of `image/test-unit`
     Example `forever test-unit` will run the unit tests every time it detects a change
 * `image/lint`: Runs pylint, giving you static analyisis and style checking
 * `image/run-app`: Runs the application using uwsgi
-* `image/test`: Runs all tests and the linter
+* `image/test-all`: Runs all tests and the linter
 * `image/test-coverage`: Runs the tests and outputs the coverage statistics
 * `image/test-unit`: Runs the unit tests only
 
