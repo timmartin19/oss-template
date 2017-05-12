@@ -1,0 +1,116 @@
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+
+import logging
+
+from flask import Blueprint, url_for, request, redirect, session
+from flask_login import login_user
+from flask_oauthlib.client import OAuth
+from ultra_config import GlobalConfig
+
+from {{ cookiecutter.project_slug }}.models import DB, User, OauthEnum, UserOauthProvider
+
+OAUTH_CLIENT = OAuth()
+FACEBOOK_OAUTH = OAUTH_CLIENT.remote_app(
+    'facebook',
+    base_url='https://graph.facebook.com/',
+    request_token_url=None,
+    access_token_url='/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    request_token_params={'scope': 'email'},
+    app_key='FACEBOOK'
+)
+
+GOOGLE_OAUTH = OAUTH_CLIENT.remote_app(
+    'google',
+    request_token_params={
+        'scope': 'email'
+    },
+    base_url='https://www.googleapis.com/oauth2/v1/',
+    request_token_url=None,
+    access_token_method='POST',
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    app_key='GOOGLE'
+)
+
+
+@FACEBOOK_OAUTH.tokengetter
+def get_facebook_token(token=None):
+    return session.get('facebook_token')
+
+
+@GOOGLE_OAUTH.tokengetter
+def get_google_token(token=None):
+    return session.get('google_token')
+
+
+LOG = logging.getLogger(__name__)
+OAUTH = Blueprint('oauth', __name__)
+
+
+@OAUTH.route('/facebook/login')
+@GlobalConfig.inject('HOST_ROOT')
+def login_with_facebook(host_root):
+    return FACEBOOK_OAUTH.authorize(
+        callback='{0}{1}'.format(host_root, url_for('oauth.facebook_authorized')),
+        next=request.args.get('next', request.referrer or None))
+
+
+@OAUTH.route('/facebook/authorized')
+def facebook_authorized():
+    next_url = request.args.get('next', '/static/')
+    resp = FACEBOOK_OAUTH.authorized_response()
+    if not resp:
+        return redirect(url_for('user.login'))
+
+    session['facebook_token'] = (
+        resp['access_token'],
+    )
+    resp = FACEBOOK_OAUTH.get('/me?fields=email')
+    email = resp.data['email']
+    _login_oauth_user(email, OauthEnum.facebook)
+    return redirect(next_url)
+
+
+def _login_oauth_user(email, oauth_provider):
+    user = DB.session.query(User).filter_by(email=email).first()
+    if not user:
+        user = User(email=email)
+        DB.session.add(user)
+        DB.session.flush()
+    oauth = DB.session.query(UserOauthProvider).filter_by(user_id=user.id, provider=oauth_provider).first()
+    if not oauth:
+        DB.session.add(UserOauthProvider(user_id=user.id, provider=oauth_provider))
+        DB.session.commit()
+    login_user(user, remember=True)
+    return user
+
+
+@OAUTH.route('/google/login')
+@GlobalConfig.inject('HOST_ROOT')
+def login_with_google(host_root):
+    return GOOGLE_OAUTH.authorize(
+        callback='{0}{1}'.format(host_root, url_for('oauth.google_authorized')),
+        next=request.args.get('next', request.referrer or None)
+    )
+
+
+@OAUTH.route('/google/authorized')
+@GlobalConfig.inject('USER_AFTER_LOGIN_ENDPOINT')
+def google_authorized(after_login_endpoint):
+    next_url = request.args.get('next', url_for(after_login_endpoint))
+    resp = GOOGLE_OAUTH.authorized_response()
+    if not resp:
+        redirect(url_for('user.login'))
+
+    session['google_token'] = (
+        resp['access_token'],
+        '',
+    )
+
+    resp = GOOGLE_OAUTH.get('userinfo')
+    _login_oauth_user(resp.data['email'], OauthEnum.google)
+    return redirect(next_url)

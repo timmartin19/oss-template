@@ -14,7 +14,7 @@ from flask import Flask
 from ultra_config import GlobalConfig
 {% set blueprint = '{0}_BLUEPRINT'.format(cookiecutter.project_slug.upper()) %}
 from {{ cookiecutter.project_slug }}.views import {{ blueprint }}
-from {{ cookiecutter.project_slug }}.models import DB
+from {{ cookiecutter.project_slug }}.models import DB, MIGRATE, USER_MANAGER
 from {{ cookiecutter.project_slug }} import default_settings
 
 LOG = logging.getLogger(__name__)
@@ -43,6 +43,8 @@ def _init_db(app):
     :rtype: Flask
     """
     DB.init_app(app)
+    MIGRATE.init_app(app)
+    USER_MANAGER.init_app(app)
     return app
 
 
