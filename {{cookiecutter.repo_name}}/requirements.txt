@@ -8,3 +8,9 @@ webtest
 pylint
 colorlog
 psycopg2
+flask-migrate
+ultra-config
+py-status-checker
+ujson
+{% if cookiecutter.user == 'y' %}flask-user
+{% endif %}colorlog

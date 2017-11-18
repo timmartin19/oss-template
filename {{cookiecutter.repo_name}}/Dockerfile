@@ -1,6 +1,7 @@
-FROM timmartin/python-alpine-build
+FROM python:alpine
 
-RUN apk add libxslt-dev libffi-dev postgresql-dev
+RUN apk update && \
+    apk add inotify-tools bash gcc musl-dev linux-headers libxslt-dev libffi-dev postgresql-dev
 
 # Setup the user
 ENV USER_ROOT="/home/app" \
