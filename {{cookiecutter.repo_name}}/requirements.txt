@@ -12,5 +12,8 @@ flask-migrate
 ultra-config
 py-status-checker
 ujson
+coverage
 {% if cookiecutter.user == 'y' %}flask-user
 {% endif %}colorlog
+{% if cookiecutter.use_pytest == 'y' -%}
+pytest{%- endif %}

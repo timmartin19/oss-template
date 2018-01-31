@@ -1,7 +1,6 @@
 FROM python:alpine
 
-RUN apk update && \
-    apk add inotify-tools bash gcc musl-dev linux-headers libxslt-dev libffi-dev postgresql-dev
+RUN apk add --no-cache inotify-tools bash gcc musl-dev linux-headers libxslt-dev libffi-dev postgresql-dev
 
 # Setup the user
 ENV USER_ROOT="/home/app" \
@@ -20,8 +19,6 @@ RUN pip install -U pip setuptools uwsgi
 EXPOSE 5000
 
 # Install the requirements
-ADD requirements_dev.txt $APP_ROOT/requirements_dev.txt
-RUN pip install -r requirements_dev.txt
 ADD requirements.txt $APP_ROOT/requirements.txt
 RUN pip install -r requirements.txt
 
@@ -37,5 +34,3 @@ ADD docs $APP_ROOT/docs
 # Add the project files
 ADD {{ cookiecutter.project_slug }} $APP_ROOT/{{ cookiecutter.project_slug }}
 ADD {{ cookiecutter.project_slug }}_tests $APP_ROOT/{{ cookiecutter.project_slug }}_tests
-
-RUN python setup.py -q install
