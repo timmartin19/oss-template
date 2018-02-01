@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 import logging
 
 from flask import Blueprint, Response
+from scheming_flask import FlaskSchema
 from sqlalchemy.exc import OperationalError
 from status_checker import StatusChecker
 import ujson
@@ -18,6 +19,7 @@ from {{ cookiecutter.project_slug }}.models import DB
 
 {% set blueprint = '{0}_BLUEPRINT'.format(cookiecutter.project_slug.upper()) %}
 LOG = logging.getLogger(__name__)
+SCHEMER = FlaskSchema()
 {{ blueprint }} = Blueprint('{{ cookiecutter.project_slug|lower }}', __name__)
 
 

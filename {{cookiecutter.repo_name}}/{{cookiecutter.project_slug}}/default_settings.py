@@ -50,4 +50,4 @@ LOGGING_CONFIG = {
 DEBUG = False
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-SQLALCHEMY_DATABASE_URI = 'postgresql://tempsocket@localhost:5432/tempsocket'
+SQLALCHEMY_DATABASE_URI = 'postgresql://{{ cookiecutter.project_slug }}@postgres:5432/{{ cookiecutter.project_slug }}'

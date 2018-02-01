@@ -11,8 +11,8 @@ psycopg2
 flask-migrate
 ultra-config
 py-status-checker
-ujson
 coverage
+scheming-flask
 {% if cookiecutter.user == 'y' %}flask-user
 {% endif %}colorlog
 {% if cookiecutter.use_pytest == 'y' -%}

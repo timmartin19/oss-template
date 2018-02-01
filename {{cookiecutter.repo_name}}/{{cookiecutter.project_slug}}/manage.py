@@ -11,11 +11,18 @@ import logging
 from logging import config
 
 from flask import Flask
+from scheming_flask import SchemaValidationError
 from ultra_config import GlobalConfig
+from werkzeug.exceptions import default_exceptions
 {% set blueprint = '{0}_BLUEPRINT'.format(cookiecutter.project_slug.upper()) %}
 from {{ cookiecutter.project_slug }}.views import {{ blueprint }}
-from {{ cookiecutter.project_slug }}.models import DB, MIGRATE{% if cookiecutter.user == 'y' %}, USER_MANAGER{% endif %}
+from {{ cookiecutter.project_slug }}.models import DB, MIGRATE, SCHEMER{% if cookiecutter.user == 'y' %}, USER_MANAGER{% endif %}
 from {{ cookiecutter.project_slug }} import default_settings
+from {{ cookiecutter.project_slug }}.error_handler import (
+    handle_validation_exception,
+    handle_generic_exception,
+    handle_http_exception
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -33,6 +40,8 @@ def init_app(config_override=None):
     _init_logging()
     app = _register_blueprints(app)
     app = _init_db(app)
+    _init_schemer(SCHEMER, app.config)
+    _init_error_handlers(app)
     return app
 
 
@@ -97,6 +106,21 @@ def _load_configuration(app, overrides=None):
     app.debug = GlobalConfig.config['DEBUG']
     return app
 
+
+def _init_schemer(schemer, config):
+    """Initialize scheming-flask"""
+    schemer.init_app(config['JSONSCHEMA_DIR'])
+
+
+def _init_error_handlers(app):
+    """
+    Add error handlers for various different types of errors
+    in the application
+    """
+    app.register_error_handler(SchemaValidationError, handle_validation_exception)
+    app.register_error_handler(Exception, handle_generic_exception)
+    for exception_type in default_exceptions.values():
+        app.register_error_handler(exception_type, handle_http_exception)
 
 if __name__ == '__main__':
     # pylint: disable=invalid-name
